@@ -49,7 +49,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.cellForItem(at: indexPath) as! CardCollectionViewCell
         let card = cardArray[indexPath.row]
         
-        if card.isFlipped == false {
+        if card.isFlipped == false && card.isMatched == false {
             
             cell.flip()
             card.isFlipped = true
@@ -60,7 +60,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
             else{
                 
-                
+                checkForMatch(indexPath)
                 
             }
             
@@ -87,6 +87,18 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         }
         else{
+            
+        cardOne.isFlipped = false
+        cardTwo.isFlipped = false
+        
+        cardOneCell?.flipBack()
+        cardTwoCell?.flipBack()
+        
+        }
+        
+        if cardOneCell == nil{
+            
+            collectionView.reloadItems(at: [firstFlipCardIndex!])
             
         }
         
