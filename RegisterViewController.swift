@@ -9,8 +9,10 @@
 import UIKit
 import Firebase
 
-class EnterViewController: UIViewController {
+class RegisterViewController: UIViewController {
 
+  
+    
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passwordSecondText: UITextField!
@@ -33,6 +35,10 @@ class EnterViewController: UIViewController {
                 self.showAlert("Problem Oluştu","Kullanıcı adı ve ya şifre hatalı")
             }
             else{
+                
+                self.postData()
+                
+                self.performSegue(withIdentifier: "registerToMainVC", sender: nil)
                 print(self.usernameMail)
             }
         }
@@ -46,35 +52,9 @@ class EnterViewController: UIViewController {
             showAlert("Problem Oluştu","Boş geçilemez")
         }
     }
-    @IBAction func signInClicked(_ sender: Any) {
-        
-        if usernameText.text != "" && passwordText.text != "" {
-                   
-               usernameMail = "\(usernameText.text!)@emirhan.com"
-           
-                  
-                    Auth.auth().signIn(withEmail: usernameMail, password: passwordText.text!) { (authdata, error) in
-                        if (error != nil) {
-                            self.showAlert("Problem Oluştu","Kullanıcı adı ve ya şifre hatalı")
-                        }
-                        else{
-                            print("segue yap")
-                        }
-                    }
-                  
-              }
-               else{
-                   showAlert("Problem Oluştu","Boş geçilemez")
-               }
-        
-    }
-    
-    
-    
-    
-    
-    
-    
+   
+  
+
     
     func showAlert(_ title: String, _ message: String ) {
         
@@ -86,4 +66,24 @@ class EnterViewController: UIViewController {
         
     }
 
+    func postData() {
+              
+              let firestoreDatabase = Firestore.firestore()
+                           var firestoreReference : DocumentReference? = nil
+                    
+                    
+        firestoreDatabase.collection("Posts").document(self.usernameMail).setData([
+                        "score": "0",
+                        "username": self.usernameText.text,
+                        
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        } else {
+                            print("Document successfully written!")
+                        }
+                    }
+              
+          }
+    
 }
