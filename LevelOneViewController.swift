@@ -8,15 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class LevelOneViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     var  model = CardModel()
     var cardArray = [Card]()
     
     
     var firstFlipCardIndex : IndexPath?
+    
+    var timer : Timer?
+    var milliseconds:Float = 10 * 1000
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +31,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(timerElapsed), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: .common)
     }
 
+   @objc func timerElapsed() {
+        milliseconds -= 1
+    let seconds = String(format: "%.2f", milliseconds/1000)
+    timerLabel.text = "Kalan Süre: \(seconds)"
+    if milliseconds <= 0 {
+        
+        
+        
+        timer?.invalidate()
+        timerLabel.textColor = UIColor.red
+        checkGameEnded()
+        
+        
+    }
+    
+    }
+                
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cardArray.count
     }
@@ -45,6 +68,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if milliseconds <= 0 {
+            
+            return
+            
+        }
         
         let cell = collectionView.cellForItem(at: indexPath) as! CardCollectionViewCell
         let card = cardArray[indexPath.row]
@@ -85,6 +114,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         cardOneCell?.remove()
         cardTwoCell?.remove()
         
+        checkGameEnded()
+        
         }
         else{
             
@@ -103,6 +134,59 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         firstFlipCardIndex = nil
+        
+    }
+    
+    func checkGameEnded() {
+        
+       var isWon = true
+        
+        for card in cardArray{
+            
+            if card.isMatched == false {
+                
+            isWon = false
+            break
+            
+            }
+        }
+        
+        var title = ""
+        var message = ""
+        
+        
+        if isWon == true {
+            
+            if milliseconds > 0{
+                timer?.invalidate()
+            }
+            title = "Tebrikler"
+            message = "Kazandınız"
+        }
+        else {
+            
+            if milliseconds > 0{
+                
+                return
+                
+            }
+            
+            title = "Game Over"
+            message = "Kaybettiniz"
+            
+        }
+       
+        showAlert(title, message)
+       
+    }
+    
+    func showAlert(_ title: String, _ message: String ) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+               
+        present(alert, animated: true, completion: nil)
         
     }
     
