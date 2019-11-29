@@ -8,19 +8,23 @@
 
 import UIKit
 
-class LevelOneViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class LevelTwoViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     
-    @IBOutlet weak var timerLabel: UILabel!
+    var gelenTime = Float()
+    
+
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    var  model = CardModel()
+    
+    var  model = CardModelTwo()
     var cardArray = [Card]()
     
     
     var firstFlipCardIndex : IndexPath?
     
     var timer : Timer?
-    var milliseconds:Float = 180 * 1000
+    var milliseconds:Float = 10 * 1000
     
     
     override func viewDidLoad() {
@@ -36,16 +40,16 @@ class LevelOneViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 
    @objc func timerElapsed() {
-        milliseconds -= 1
-    let seconds = String(format: "%.2f", milliseconds/1000)
-    timerLabel.text = "Kalan Süre: \(seconds)"
+        gelenTime -= 1
+    let seconds = String(format: "%.2f", gelenTime/1000)
+    timeLabel.text = "Kalan Süre: \(seconds)"
     
-    if milliseconds <= 0 {
-        
+    if gelenTime <= 0 {
+       
         
         
         timer?.invalidate()
-        timerLabel.textColor = UIColor.red
+        timeLabel.textColor = UIColor.red
         checkGameEnded()
         
         
@@ -199,20 +203,13 @@ class LevelOneViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    //alert.addAction(alertAction)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-        print("Handle Ok logic here")
-            self.performSegue(withIdentifier: "levelOnetoLevelTwoVC", sender: nil)
-        }))
+    alert.addAction(alertAction)
            
         present(alert, animated: true) {
             print("level up")
-            
+            print(self.gelenTime) as? String
+            self.performSegue(withIdentifier: "denemeVC", sender: nil)
         }
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var gonderSegue = segue.destination as! LevelTwoViewController
-        gonderSegue.gelenTime = self.milliseconds
     }
 }
 
