@@ -1,17 +1,16 @@
 //
-//  CardModel.swift
+//  CardModeTwo.swift
 //  MatchGame
 //
-//  Created by Erhan Acisu on 27.11.2019.
+//  Created by Erhan Acisu on 29.11.2019.
 //  Copyright © 2019 Emirhan Acisu. All rights reserved.
 //
 
 import Foundation
-
-class CardModel {
+class CardModelThree {
     func getCards()  -> [Card] {
         var generetedCardsArray = [Card]()
-        for _ in 1...8{
+        for _ in 1...6{
             
            let randomNumber =  arc4random_uniform(13) + 1
             
