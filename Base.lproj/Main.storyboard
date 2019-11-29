@@ -424,11 +424,15 @@
                     <connections>
                         <outlet property="collectionView" destination="ELH-lZ-tMw" id="W6b-1e-EHw"/>
                         <outlet property="timeLabel" destination="Emf-mQ-xNT" id="cd7-49-g5p"/>
+<<<<<<< HEAD
                         <segue destination="1EX-hO-fRa" kind="presentation" identifier="levelTwotoLevelThreeVC" modalPresentationStyle="fullScreen" id="eZR-jK-wXp"/>
+=======
+>>>>>>> a130c220f91cffd56e07fa70ceaf2dd4e1728dc2
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vp-Js-GgQ" sceneMemberID="firstResponder"/>
             </objects>
+<<<<<<< HEAD
             <point key="canvasLocation" x="2972" y="106"/>
         </scene>
         <!--Level Three View Controller-->
@@ -531,6 +535,9 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U0M-gj-buM" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3887" y="106"/>
+=======
+            <point key="canvasLocation" x="3046" y="106"/>
+>>>>>>> a130c220f91cffd56e07fa70ceaf2dd4e1728dc2
         </scene>
     </scenes>
     <resources>
